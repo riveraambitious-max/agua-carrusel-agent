@@ -1,0 +1,9 @@
+{
+  "name": "agua-carrusel-agent",
+  "version": "1.0.0",
+  "description": "Genera automáticamente contenido diario de carrusel sobre calidad de agua en PR para Cebilon y Master Pro",
+  "type": "module",
+  "dependencies": {
+    "googleapis": "^140.0.0"
+  }
+}
