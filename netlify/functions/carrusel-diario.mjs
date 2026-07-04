@@ -73,9 +73,16 @@ async function generarCarrusel() {
   const textBlocks = data.content.filter((b) => b.type === "text");
   const rawText = textBlocks.map((b) => b.text).join("\n").trim();
 
-  const cleaned = rawText.replace(/^```json\s*/i, "").replace(/```\s*$/, "").trim();
+  const jsonMatch = rawText.match(/\{[\s\S]*\}/);
+  if (!jsonMatch) {
+    throw new Error(`No se encontró JSON en la respuesta de Claude: ${rawText.slice(0, 500)}`);
+  }
 
-  return JSON.parse(cleaned);
+  try {
+    return JSON.parse(jsonMatch[0]);
+  } catch (e) {
+    throw new Error(`JSON inválido: ${e.message}. Texto recibido: ${jsonMatch[0].slice(0, 500)}`);
+  }
 }
 
 async function escribirEnGoogleSheet(carrusel) {
